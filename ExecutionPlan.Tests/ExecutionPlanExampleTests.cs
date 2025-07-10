@@ -38,7 +38,7 @@ public class ExecutionPlanTests
         // Create execution context
         var context = new TestContext
         {
-            Books = new[] { "C# Programming", "Design Patterns" },
+            Books = ["C# Programming", "Design Patterns"],
             Flex = 75
         };
 
@@ -73,7 +73,7 @@ public class ExecutionPlanTests
         // Create execution context with data
         var context = new TestContext
         {
-            Books = new[] { "Clean Code", "Refactoring", "Design Patterns" },
+            Books = ["Clean Code", "Refactoring", "Design Patterns"],
             Flex = 100
         };
 
