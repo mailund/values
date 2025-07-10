@@ -27,14 +27,6 @@ public class BlockFactory
     }
 
     /// <summary>
-    ///     Register an input/output value with a specific name
-    /// </summary>
-    public void RegisterValue<T>(string name, IInOutValue<T> value)
-    {
-        _values[name] = value;
-    }
-
-    /// <summary>
     ///     Create a block of type T using reflection to inject constructor parameters based on ValueAttribute
     /// </summary>
     public T CreateBlock<T>() where T : IBlock

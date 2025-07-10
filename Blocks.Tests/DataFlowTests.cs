@@ -5,7 +5,7 @@ namespace Blocks.Tests;
 
 public class DataFlowTests
 {
-    [Fact]
+    [ Fact ]
     public void ThreeBlocks_ShouldPassDataThroughChain()
     {
         // Arrange - Create the value connectors between blocks using ClosureValue
@@ -18,27 +18,24 @@ public class DataFlowTests
         var transformFactory = new BlockFactory();
         var sinkFactory = new BlockFactory();
 
-        // Register values for each block separately
-        sourceFactory.RegisterValue("output", sourceToTransform);
+        // Register values for each block with explicit interface types
+        sourceFactory.RegisterValue("output", (IOutValue<int>)sourceToTransform);
 
-        transformFactory.RegisterValue("input", sourceToTransform);
-        transformFactory.RegisterValue("output", transformToSink);
+        transformFactory.RegisterValue("input", (IInValue<int>)sourceToTransform);
+        transformFactory.RegisterValue("output", (IOutValue<string>)transformToSink);
 
-        sinkFactory.RegisterValue("input", transformToSink);
-        sinkFactory.RegisterValue("result", finalResult);
+        sinkFactory.RegisterValue("input", (IInValue<string>)transformToSink);
+        sinkFactory.RegisterValue("result", (IOutValue<bool>)finalResult);
 
         // Create blocks using their respective factories
         var sourceBlock = sourceFactory.CreateBlock<SourceBlock>();
         var transformBlock = transformFactory.CreateBlock<TransformBlock>();
         var sinkBlock = sinkFactory.CreateBlock<SinkBlock>();
 
-        // Create test context to capture log messages
-        var context = new TestContext();
-
         // Act - Execute the blocks in sequence
-        sourceBlock.Execute(context);
-        transformBlock.Execute(context);
-        sinkBlock.Execute(context);
+        sourceBlock.Execute();
+        transformBlock.Execute();
+        sinkBlock.Execute();
 
         // Assert - Verify the data flowed correctly through all blocks
         finalResult.Value.ShouldBeTrue();
@@ -47,10 +44,6 @@ public class DataFlowTests
         sourceToTransform.Value.ShouldBe(42);
         transformToSink.Value.ShouldBe("Transformed: 84");
 
-        // Verify log messages show the data flow
-        context.LogMessages.Count.ShouldBe(3);
-        context.LogMessages[0].ShouldBe("SourceBlock: Generating value 42");
-        context.LogMessages[1].ShouldBe("TransformBlock: 42 -> Transformed: 84");
-        context.LogMessages[2].ShouldBe("SinkBlock: Received 'Transformed: 84', Success: True");
+        // Note: We can no longer verify log messages since blocks don't have access to context logging
     }
 }

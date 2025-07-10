@@ -1,9 +1,9 @@
 namespace Blocks;
 
 /// <summary>
-///     Attribute to mark fields that should be injected with Values
+///     Attribute to mark constructor parameters that should be injected with Values
 /// </summary>
-[AttributeUsage(AttributeTargets.Parameter)]
+[ AttributeUsage(AttributeTargets.Parameter) ]
 public class ValueAttribute : Attribute
 {
     /// <summary>
@@ -21,7 +21,7 @@ public class ValueAttribute : Attribute
     }
 
     /// <summary>
-    ///     Optional name for the value binding. If not provided, the field/property name will be used.
+    ///     Optional name for the value binding. If not provided, the parameter name will be used.
     /// </summary>
     public string? Name { get; set; }
 

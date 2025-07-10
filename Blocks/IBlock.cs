@@ -5,5 +5,5 @@ namespace Blocks;
 /// </summary>
 public interface IBlock
 {
-    void Execute(IContext context);
+    void Execute();
 }

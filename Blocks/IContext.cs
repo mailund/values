@@ -2,5 +2,7 @@ namespace Blocks;
 
 public interface IContext
 {
-    void Log(string message);
+    IReadOnlyList<string> Books { get; }
+    int                   Flex  { get; }
+    void                  Log(string message);
 }

@@ -17,8 +17,6 @@ public interface IOutValue<in T>
     void SetValue(Func<T> valueFunc);
 }
 
-public interface IInOutValue<T> : IInValue<T>, IOutValue<T> { }
-
 public static class ValueExtensions
 {
     /// <summary>
@@ -33,11 +31,26 @@ public static class ValueExtensions
     {
         outValue.SetValue(() => value);
     }
+
+    /// <summary>
+    ///     Filters an enumerable value using the provided predicate
+    /// </summary>
+    /// <param name="input">The input enumerable value</param>
+    /// <param name="predicate">The filter predicate</param>
+    /// <typeparam name="T">The element type</typeparam>
+    /// <returns>A new IInValue containing the filtered enumerable</returns>
+    public static IInValue<IEnumerable<T>> Filter<T>(this IInValue<IEnumerable<T>> input, Func<T, bool> predicate)
+    {
+        return new ClosureValue<IEnumerable<T>>(() => input.Value.Where(predicate));
+    }
 }
 
-public class ClosureValue<T>(T defaultValue, Func<T>? closure = null) : IInOutValue<T>
+public class ClosureValue<T>(Func<T> closure) : IInValue<T>, IOutValue<T>
 {
-    private Func<T> _closure = closure ?? (() => defaultValue);
+    private Func<T> _closure = closure;
+
+    // Constructor that takes a default value and wraps it in a closure
+    public ClosureValue(T defaultValue) : this(() => defaultValue) { }
 
     public T Value => _closure();
 

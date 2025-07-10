@@ -5,5 +5,5 @@ namespace Blocks;
 /// </summary>
 public abstract class Block : IBlock
 {
-    public abstract void Execute(IContext context);
+    public abstract void Execute();
 }

@@ -27,14 +27,6 @@ public class ValueInjector
     }
 
     /// <summary>
-    ///     Register an input/output value with a specific name
-    /// </summary>
-    public void RegisterValue<T>(string name, IInOutValue<T> value)
-    {
-        _values[name] = value;
-    }
-
-    /// <summary>
     ///     Inject values into a block based on ValueAttribute decorations
     /// </summary>
     public void InjectValues(IBlock block)
