@@ -1,4 +1,3 @@
-using Blocks;
 using Blocks.Tests;
 using Shouldly;
 using Values;
@@ -58,8 +57,8 @@ public class ExecutionPlanTests
         var plan = new ExecutionPlan();
 
         // Create context values using the plan's ContextRef
-        var booksValue = new ContextValue<IReadOnlyList<string>>(plan.ContextRef, ContextLenses.BooksLense);
-        var flexValue = new ContextValue<int>(plan.ContextRef, ContextLenses.FlexLense);
+        var booksValue = plan.ContextRef.BooksValue;
+        var flexValue = plan.ContextRef.FlexValue;
         var contextResult = new ClosureValue<string>("");
 
         // Add ContextAwareBlock - uses context data
